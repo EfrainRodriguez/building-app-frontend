@@ -1,0 +1,29 @@
+<div
+  class="relative flex w-full sm:max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md"
+>
+  <div
+    class="relative h-60 mx-3 mt-3 flex justify-center overflow-hidden rounded-xl"
+  >
+    <img
+      [src]="coverImage"
+      [alt]="project?.name"
+    />
+  </div>
+  <div class="mt-4 px-5 pb-5">
+    <h5 class="text-xl tracking-tight text-slate-900 truncate mb-2">
+      {{ project?.name }}
+    </h5>
+    <p class="text-gray-500 text-sm mb-1">
+      Start date: {{ project?.startDate | date : "mediumDate" }}
+    </p>
+    <p class="text-gray-500 text-sm mb-5">
+      End date: {{ project?.endDate | date : "mediumDate" }}
+    </p>
+    <button
+      class="flex items-center w-full justify-center rounded-md border border-primary px-5 py-2.5 text-center text-sm font-medium text-primary hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-blue-300"
+      (click)="redirectToProjectDetails()"
+    >
+      See Details
+    </button>
+  </div>
+</div>
