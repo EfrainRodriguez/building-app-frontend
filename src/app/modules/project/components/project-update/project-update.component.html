@@ -1,1 +1,31 @@
-<p>project-update works!</p>
+<div class="max-w-screen-xl px-4 py-16 mx-auto">
+  <div class="my-3">
+    <button
+      class="flex text-primary border border-primary right-2.5 bottom-2.5 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
+      (click)="redirectToProjectDetails()"
+    >
+      <svg
+        class="w-6 h-6 text-primary"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 20 14"
+      >
+        <path
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M13 5H1m0 0 4 4M1 5l4-4"
+        />
+      </svg>
+      <span>Back</span>
+    </button>
+  </div>
+  <h1 class="text-2xl mb-4">Edit project</h1>
+  <app-project-form
+    [isEditing]="true"
+    [projectData]="project"
+    (onProjectSubmit)="onSubmit($event)"
+  ></app-project-form>
+</div>

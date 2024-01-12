@@ -13,7 +13,7 @@ export class ProjectComponent implements OnInit {
   projects: Project[] = [];
   isLoading = false;
   page = 0;
-  limit = 8;
+  limit = 4;
   order = -1;
   orderBy = 'createdAt';
   count = 0;

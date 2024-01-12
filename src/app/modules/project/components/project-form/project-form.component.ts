@@ -1,44 +1,61 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  OnChanges,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import {
   FormGroup,
   FormControl,
   Validators,
   FormArray,
   FormBuilder,
-  Form,
 } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
-
-import { ProjectService } from '../../project.service';
+import moment from 'moment';
 
 @Component({
   selector: 'app-project-form',
   templateUrl: './project-form.component.html',
   styleUrls: ['./project-form.component.css'],
 })
-export class ProjectFormComponent implements OnInit {
+export class ProjectFormComponent implements OnChanges, OnInit {
   hasError = false;
   isLoading = false;
   @Input() isEditing = false;
+  @Input() projectData: any;
+  @Output() onProjectSubmit: EventEmitter<any> = new EventEmitter<any>();
 
-  itemForm: FormArray = new FormArray([this.createItem]);
+  itemForm: FormArray = new FormArray([] as FormGroup[]);
 
-  projectForm: FormGroup = new FormGroup({
-    name: new FormControl('', [Validators.required]),
-    startDate: new FormControl('', [Validators.required]),
-    endDate: new FormControl('', [Validators.required]),
-    images: new FormControl([]),
-    items: this.itemForm,
-  });
+  projectForm!: FormGroup;
 
-  constructor(
-    private projectService: ProjectService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private fb: FormBuilder
-  ) {}
+  constructor(private fb: FormBuilder) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.projectForm = this.fb.group({
+      name: ['', [Validators.required]],
+      startDate: ['', [Validators.required]],
+      endDate: ['', [Validators.required]],
+      images: [''],
+      items: new FormArray([this.itemForm]),
+    });
+  }
+
+  ngOnChanges(): void {
+    if (this.isEditing && this.projectData) {
+      this.projectForm.patchValue({
+        name: this.projectData.name,
+        startDate: moment(this.projectData.startDate).format('YYYY-MM-DD'),
+        endDate: moment(this.projectData.endDate).format('YYYY-MM-DD'),
+      });
+
+      this.projectData.items.forEach((item: any) => {
+        this.addItem(item);
+      });
+    }
+  }
 
   isValid() {
     return (
@@ -48,10 +65,12 @@ export class ProjectFormComponent implements OnInit {
     );
   }
 
-  get createItem(): FormGroup {
+  createItem(item: any): FormGroup {
     return new FormGroup({
-      name: new FormControl('', [Validators.required]),
-      unitValue: new FormControl('', [Validators.required]),
+      name: new FormControl(item ? item.name : '', [Validators.required]),
+      unitValue: new FormControl(item ? item.unitValue : '', [
+        Validators.required,
+      ]),
     });
   }
 
@@ -60,13 +79,7 @@ export class ProjectFormComponent implements OnInit {
   }
 
   addItem(item?: any): void {
-    this.itemForm.push(this.createItem);
-
-    // Si estás editando un proyecto existente, carga los valores de los items
-    // if (item) {
-    //   const index = this.itemsFormArray.length - 1;
-    //   this.itemsFormArray.at(index).patchValue(item);
-    // }
+    this.itemForm.push(this.createItem(item));
   }
 
   removeItem(index: number): void {
@@ -76,19 +89,17 @@ export class ProjectFormComponent implements OnInit {
   onSubmit() {
     if (!this.isValid()) {
       this.hasError = true;
+      return;
     }
     this.hasError = false;
     this.isLoading = true;
 
-    const projectData = { ...this.projectForm.value };
+    const data = {
+      ...this.projectForm.value,
+      images: [],
+      items: this.projectForm.getRawValue().items[0],
+    };
 
-    if (this.isEditing) {
-    } else {
-      this.projectService.createProject(projectData).subscribe(() => {
-        this.isLoading = false;
-        this.projectForm.reset();
-        this.router.navigate(['/project']);
-      });
-    }
+    this.onProjectSubmit.emit(data);
   }
 }

@@ -1,5 +1,5 @@
 <div class="max-w-screen-xl px-4 py-16 mx-auto">
-  <div class="my-3">
+  <div class="my-3 flex justify-between">
     <button
       class="flex text-primary border border-primary right-2.5 bottom-2.5 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
       (click)="redirectToProjectList()"
@@ -21,6 +21,30 @@
       </svg>
       <span>Back</span>
     </button>
+    <div class="flex items-center">
+      <button
+        class="flex ml-auto text-white bg-primary border-0 py-2 px-6 focus:outline-none hover:bg-primary-dark rounded"
+        (click)="redirectToProjectEdit()"
+      >
+        Edit
+      </button>
+      <button
+        class="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4"
+        (click)="deleteProject()"
+      >
+        <svg
+          class="w-6 h-6 text-gray-800 text-red-500 hover:text-red-600"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="currentColor"
+          viewBox="0 0 18 20"
+        >
+          <path
+            d="M17 4h-4V2a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v2H1a1 1 0 0 0 0 2h1v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6h1a1 1 0 1 0 0-2ZM7 2h4v2H7V2Zm1 14a1 1 0 1 1-2 0V8a1 1 0 0 1 2 0v8Zm4 0a1 1 0 0 1-2 0V8a1 1 0 0 1 2 0v8Z"
+          />
+        </svg>
+      </button>
+    </div>
   </div>
   <div class="flex flex-wrap md:flex-row">
     <div
@@ -33,30 +57,6 @@
       />
     </div>
     <div class="md:w-1/2 w-full md:pl-10 py-3">
-      <div class="flex items-center">
-        <button
-          class="flex ml-auto text-white bg-primary border-0 py-2 px-6 focus:outline-none hover:bg-primary-dark rounded"
-          (click)="redirectToProjectEdit()"
-        >
-          Edit
-        </button>
-        <button
-          class="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4"
-          (click)="deleteProject()"
-        >
-          <svg
-            class="w-6 h-6 text-gray-800 text-red-500 hover:text-red-600"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="currentColor"
-            viewBox="0 0 18 20"
-          >
-            <path
-              d="M17 4h-4V2a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v2H1a1 1 0 0 0 0 2h1v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6h1a1 1 0 1 0 0-2ZM7 2h4v2H7V2Zm1 14a1 1 0 1 1-2 0V8a1 1 0 0 1 2 0v8Zm4 0a1 1 0 0 1-2 0V8a1 1 0 0 1 2 0v8Z"
-            />
-          </svg>
-        </button>
-      </div>
       <h1 class="text-gray-900 text-3xl title-font font-medium mb-5">
         {{ project?.name }}
       </h1>

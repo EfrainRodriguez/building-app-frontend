@@ -23,6 +23,5 @@
     </button>
   </div>
   <h1 class="text-2xl mb-4">Create new project</h1>
-  <app-project-form
-  ></app-project-form>
+  <app-project-form (onProjectSubmit)="onSubmit($event)"></app-project-form>
 </div>
