@@ -1,0 +1,191 @@
+<form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+  <div class="mb-2">
+    <label for="name" class="block mb-2 text-sm font-medium text-gray-700"
+      >Name*</label
+    >
+    <input
+      type="text"
+      id="name"
+      class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+      placeholder="Type the product name"
+      required
+      formControlName="name"
+    />
+    <p
+      class="text-red-500 text-sm mt-1"
+      *ngIf="
+        (projectForm.get('name')?.invalid &&
+          projectForm.get('name')?.touched) ||
+        (projectForm.get('name')?.value === '' && hasError)
+      "
+    >
+      Name is required
+    </p>
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div class="mb-2">
+      <label for="price" class="block mb-2 text-sm font-medium text-gray-700"
+        >Start date*</label
+      >
+      <input
+        type="date"
+        id="startDate"
+        class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+        placeholder="Type the product price"
+        required
+        formControlName="startDate"
+      />
+      <p
+        class="text-red-500 text-sm mt-1"
+        *ngIf="
+          (projectForm.get('startDate')?.invalid &&
+            projectForm.get('startDate')?.touched) ||
+          (projectForm.get('startDate')?.value === '' && hasError)
+        "
+      >
+        Start date is required
+      </p>
+    </div>
+    <div class="mb-2">
+      <label for="price" class="block mb-2 text-sm font-medium text-gray-700"
+        >End date*</label
+      >
+      <input
+        type="date"
+        id="endDate"
+        class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+        placeholder="Type the product price"
+        required
+        formControlName="endDate"
+      />
+      <p
+        class="text-red-500 text-sm mt-1"
+        *ngIf="
+          (projectForm.get('endDate')?.invalid &&
+            projectForm.get('endDate')?.touched) ||
+          (projectForm.get('endDate')?.value === '' && hasError)
+        "
+      >
+        End date is required
+      </p>
+    </div>
+  </div>
+  <h4 class="mt-5 mb-2">Project items</h4>
+  <div
+    formArrayName="items"
+    *ngFor="let item of itemsFormArray; let i = index"
+    class="flex items-end mb-2"
+  >
+    <div [formGroup]="item" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div>
+        <label
+          for="itemName"
+          class="block mb-2 text-sm font-medium text-gray-700"
+          >Item name*</label
+        >
+        <input
+          type="text"
+          id="itemName"
+          formControlName="name"
+          placeholder="Type the item name"
+          required
+          class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+        />
+      </div>
+
+      <div>
+        <label
+          for="itemUnitValue"
+          class="block mb-2 text-sm font-medium text-gray-700"
+          >Unit value*</label
+        >
+        <input
+          type="number"
+          id="itemUnitValue"
+          formControlName="unitValue"
+          placeholder="Type the unit value"
+          required
+          class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+        />
+      </div>
+    </div>
+    <button
+      class="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4"
+      (click)="removeItem(i)"
+    >
+      <svg
+        class="w-6 h-6 text-gray-800 text-red-500 hover:text-red-600"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="currentColor"
+        viewBox="0 0 18 20"
+      >
+        <path
+          d="M17 4h-4V2a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v2H1a1 1 0 0 0 0 2h1v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6h1a1 1 0 1 0 0-2ZM7 2h4v2H7V2Zm1 14a1 1 0 1 1-2 0V8a1 1 0 0 1 2 0v8Zm4 0a1 1 0 0 1-2 0V8a1 1 0 0 1 2 0v8Z"
+        />
+      </svg>
+    </button>
+    <button
+      type="button"
+      class="rounded-full w-10 h-10 p-0 border inline-flex items-center justify-center text-gray-500 ml-4 border-primary"
+      (click)="addItem()"
+      *ngIf="i === itemsFormArray.length - 1"
+    >
+      <svg
+        class="w-6 h-6 text-primary"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="currentColor"
+        viewBox="0 0 20 20"
+      >
+        <path
+          d="M9.546.5a9.5 9.5 0 1 0 9.5 9.5 9.51 9.51 0 0 0-9.5-9.5ZM13.788 11h-3.242v3.242a1 1 0 1 1-2 0V11H5.304a1 1 0 0 1 0-2h3.242V5.758a1 1 0 0 1 2 0V9h3.242a1 1 0 1 1 0 2Z"
+        />
+      </svg>
+    </button>
+  </div>
+  <!-- <div class="mb-2 mt-8 sm:mt-2">
+    <label
+      for="description"
+      class="block mb-2 text-sm font-medium text-gray-700"
+      >Description</label
+    >
+    <textarea
+      type="text"
+      rows="3"
+      id="description"
+      formControlName="description"
+      class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+      placeholder="Type the product description"
+      required
+    ></textarea>
+  </div>
+  <div class="mb-2 mt-2">
+    <label class="block mb-2 text-sm font-medium text-gray-900" for="file_input"
+      >Upload image</label
+    >
+    <input
+      class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer"
+      id="file_input"
+      type="file"
+      accept="image/*"
+      (change)="onSelectFile($event)"
+    />
+    <p
+      class="text-red-500 text-sm mt-1"
+      *ngIf="productForm.get('image')?.value === '' && hasError"
+    >
+      Image is required
+    </p>
+  </div> -->
+
+  <div class="flex justify-end mt-6 items-center">
+    <app-spinner *ngIf="isLoading"></app-spinner>
+    <button
+      type="submit"
+      class="text-white bg-primary hover:bg-primary-dark focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+    >
+      {{ isEditing ? "Edit" : "Create" }} Product
+    </button>
+  </div>
+</form>

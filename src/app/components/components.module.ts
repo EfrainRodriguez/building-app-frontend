@@ -2,10 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { PaginationComponent } from './pagination/pagination.component';
+import { SpinnerComponent } from './spinner/spinner.component';
 
 @NgModule({
-  declarations: [PaginationComponent],
+  declarations: [PaginationComponent, SpinnerComponent],
   imports: [CommonModule],
-  exports: [PaginationComponent],
+  exports: [PaginationComponent, SpinnerComponent],
 })
 export class ComponentsModule {}

@@ -7,7 +7,7 @@ import { Project } from '../../models/project.model';
 @Component({
   selector: 'app-project-details',
   templateUrl: './project-details.component.html',
-  styleUrls: ['./project-details.component.css']
+  styleUrls: ['./project-details.component.css'],
 })
 export class ProjectDetailsComponent {
   id: string | null = null;
@@ -27,7 +27,9 @@ export class ProjectDetailsComponent {
         this.getProject(this.id);
       }
     });
-    this.coverImage = this.project?.images[0] || 'https://www.freeiconspng.com/uploads/photo-album-icon-png-14.png';
+    this.coverImage =
+      this.project?.images[0] ||
+      'https://www.freeiconspng.com/uploads/photo-album-icon-png-14.png';
   }
 
   redirectToProjectEdit() {
@@ -41,6 +43,12 @@ export class ProjectDetailsComponent {
   getProject(id: string) {
     this.projectService.getProject(id).subscribe((project) => {
       this.project = project as Project;
+    });
+  }
+
+  deleteProject() {
+    this.projectService.deleteProject(this.id as string).subscribe(() => {
+      this.redirectToProjectList();
     });
   }
 }

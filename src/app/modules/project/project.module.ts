@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { ProjectComponent } from './project.component';
 // import { PaginationComponent } from '../../components/pagination/pagination.component';
@@ -8,6 +9,7 @@ import { ProjectItemComponent } from './components/project-item/project-item.com
 import { ProjectDetailsComponent } from './components/project-details/project-details.component';
 import { ProjectCreateComponent } from './components/project-create/project-create.component';
 import { ProjectUpdateComponent } from './components/project-update/project-update.component';
+import { ProjectFormComponent } from './components/project-form/project-form.component';
 
 @NgModule({
   declarations: [
@@ -16,11 +18,13 @@ import { ProjectUpdateComponent } from './components/project-update/project-upda
     ProjectDetailsComponent,
     ProjectCreateComponent,
     ProjectUpdateComponent,
+    ProjectFormComponent,
     // PaginationComponent
   ],
   imports: [
     CommonModule,
-    ComponentsModule
+    ComponentsModule,
+    ReactiveFormsModule
   ],
   exports: [
     ProjectComponent,
