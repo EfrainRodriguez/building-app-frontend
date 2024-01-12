@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import pLimit from 'p-limit';
+
+import { environment } from 'src/environment/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProjectService {
-  urlBase = `http://localhost:3000/api/project`;
+  urlBase = `${environment.api}/project`;
 
   constructor(private http: HttpClient) {}
 
