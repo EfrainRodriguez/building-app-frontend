@@ -1,5 +1,13 @@
 <app-header></app-header>
 
-<app-toast *ngIf="(visible$ | async)"></app-toast>
+<div class="container max-w-screen-xl mx-auto px-4 pt-16">
+  <h4 class="text-gray-400 mb-5">
+    You are interacting as
+    <span class="text-gray-800">{{ userType$ | async }}</span>
+  </h4>
+  <hr>
+</div>
+
+<app-toast *ngIf="visible$ | async"></app-toast>
 
 <router-outlet></router-outlet>

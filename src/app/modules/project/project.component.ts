@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 
 import { ProjectService } from './project.service';
 import { Project } from './models/project.model';
+import { AppState } from 'src/app/state/app.state';
+import { getUserType } from 'src/app/state/selectors/user.selector';
 
 @Component({
   selector: 'app-project',
@@ -18,7 +21,13 @@ export class ProjectComponent implements OnInit {
   orderBy = 'createdAt';
   count = 0;
 
-  constructor(private projectService: ProjectService, private router: Router) {}
+  userType$ = this.store.select(getUserType);
+
+  constructor(
+    private projectService: ProjectService,
+    private router: Router,
+    private store: Store<AppState>
+  ) {}
 
   ngOnInit(): void {
     this.getProjects();

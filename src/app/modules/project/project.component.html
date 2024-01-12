@@ -1,6 +1,6 @@
-<div class="container max-w-screen-xl mx-auto px-4 py-16">
-  <div class="mb-8 flex flex-col gap-4 md:flex-row justify-between">
-    <h1 class="text-xl">Building projects</h1>
+<div class="container max-w-screen-xl mx-auto px-4 mb-16 mt-3">
+  <div class="mb-8 flex flex-col gap-4 md:flex-row justify-between items-center">
+    <h1 class="text-xl my-5">Building projects</h1>
     <div
       class="flex gap-2 justify-center flex-wrap sm:flex-nowrap flex-col-reverse sm:flex-row"
     >
@@ -12,6 +12,7 @@
         [page]="page"
       ></app-pagination>
       <button
+        *ngIf="(userType$ | async) === 'BUILDER'"
         class="w-full mb-2 sm:mb-0 flex items-center justify-center rounded-md bg-primary px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary-dark focus:outline-none focus:ring-4 focus:ring-blue-300"
         (click)="redirectToProjectCreate()"
       >

@@ -1,4 +1,4 @@
-<div class="max-w-screen-xl px-4 py-16 mx-auto">
+<div class="max-w-screen-xl px-4 mb-16 mt-5 mx-auto">
   <div class="my-3 flex justify-between">
     <button
       class="flex text-primary border border-primary right-2.5 bottom-2.5 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
@@ -26,9 +26,10 @@
         class="flex ml-auto text-white bg-primary border-0 py-2 px-6 focus:outline-none hover:bg-primary-dark rounded"
         (click)="redirectToProjectEdit()"
       >
-        Edit
+        {{ (userType$ | async) === "BUILDER" ? "Edit project" : "Proposal" }}
       </button>
       <button
+        *ngIf="(userType$ | async) === 'BUILDER'"
         class="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4"
         (click)="deleteProject()"
       >

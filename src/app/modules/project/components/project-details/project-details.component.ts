@@ -1,8 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
 
 import { ProjectService } from '../../project.service';
 import { Project } from '../../models/project.model';
+import { AppState } from 'src/app/state/app.state';
+import { getUserType } from 'src/app/state/selectors/user.selector';
+import { showToast } from 'src/app/state/actions/toast.action';
 
 @Component({
   selector: 'app-project-details',
@@ -13,11 +17,13 @@ export class ProjectDetailsComponent {
   id: string | null = null;
   @Input() project: Project | undefined;
   coverImage: string | undefined;
+  userType$ = this.store.select(getUserType);
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private store: Store<AppState>
   ) {}
 
   ngOnInit(): void {
@@ -49,6 +55,9 @@ export class ProjectDetailsComponent {
   deleteProject() {
     this.projectService.deleteProject(this.id as string).subscribe(() => {
       this.redirectToProjectList();
+      this.store.dispatch(
+        showToast('Project deleted successfully!', 'success')
+      );
     });
   }
 }

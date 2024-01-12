@@ -10,6 +10,7 @@
       placeholder="Type the product name"
       required
       formControlName="name"
+      *ngIf="(userType$ | async) === 'BUILDER'"
     />
     <p
       class="text-red-500 text-sm mt-1"
@@ -20,6 +21,9 @@
       "
     >
       Name is required
+    </p>
+    <p *ngIf="(userType$ | async) === 'PROVIDER'">
+      {{ projectForm.get("name")?.value }}
     </p>
   </div>
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -34,6 +38,7 @@
         placeholder="Type the product price"
         required
         formControlName="startDate"
+        *ngIf="(userType$ | async) === 'BUILDER'"
       />
       <p
         class="text-red-500 text-sm mt-1"
@@ -44,6 +49,9 @@
         "
       >
         Start date is required
+      </p>
+      <p *ngIf="(userType$ | async) === 'PROVIDER'">
+        {{ projectForm.get("startDate")?.value }}
       </p>
     </div>
     <div class="mb-2">
@@ -57,6 +65,7 @@
         placeholder="Type the product price"
         required
         formControlName="endDate"
+        *ngIf="(userType$ | async) === 'BUILDER'"
       />
       <p
         class="text-red-500 text-sm mt-1"
@@ -68,6 +77,9 @@
       >
         End date is required
       </p>
+      <p *ngIf="(userType$ | async) === 'PROVIDER'">
+        {{ projectForm.get("endDate")?.value }}
+      </p>
     </div>
   </div>
   <h4 class="mt-5 mb-2">{{ itemsFormArray.length }} project item(s)</h4>
@@ -76,7 +88,7 @@
     *ngFor="let item of itemsFormArray; let i = index"
     class="flex items-end mb-2"
   >
-    <div [formGroup]="item" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div [formGroup]="item" class="flex gap-4">
       <div>
         <label
           for="itemName"
@@ -89,8 +101,12 @@
           formControlName="name"
           placeholder="Type the item name"
           required
+          *ngIf="(userType$ | async) === 'BUILDER'"
           class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
         />
+        <p *ngIf="(userType$ | async) === 'PROVIDER'">
+          {{ item.getRawValue().name }}
+        </p>
       </div>
 
       <div>
@@ -105,6 +121,26 @@
           formControlName="unitValue"
           placeholder="Type the unit value"
           required
+          *ngIf="(userType$ | async) === 'BUILDER'"
+          class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+        />
+        <p *ngIf="(userType$ | async) === 'PROVIDER'">
+          ${{ item.getRawValue().unitValue?.toLocaleString()}}
+        </p>
+      </div>
+
+      <div *ngIf="(userType$ | async) === 'PROVIDER'">
+        <label
+          for="itemProposedValue"
+          class="block mb-2 text-sm font-medium text-gray-700"
+          >Proposed value*</label
+        >
+        <input
+          type="number"
+          id="itemProposedValue"
+          formControlName="proposedValue"
+          placeholder="Proposed value"
+          required
           class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
         />
       </div>
@@ -112,6 +148,7 @@
     <button
       class="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4"
       (click)="removeItem(i)"
+      *ngIf="(userType$ | async) === 'BUILDER'"
     >
       <svg
         class="w-6 h-6 text-gray-800 text-red-500 hover:text-red-600"
@@ -129,7 +166,7 @@
       type="button"
       class="rounded-full w-10 h-10 p-0 border inline-flex items-center justify-center text-gray-500 ml-4 border-primary"
       (click)="addItem()"
-      *ngIf="i === itemsFormArray.length - 1"
+      *ngIf="i === itemsFormArray.length - 1 && (userType$ | async) === 'BUILDER'"
     >
       <svg
         class="w-6 h-6 text-primary"
@@ -144,7 +181,7 @@
       </svg>
     </button>
   </div>
-  <div *ngIf="itemsFormArray.length === 0">
+  <div *ngIf="itemsFormArray.length === 0 && (userType$ | async) === 'BUILDER'">
     <button
       type="button"
       class="rounded-full w-10 h-10 p-0 border inline-flex items-center justify-center text-gray-500 ml-4 border-primary"
@@ -205,7 +242,13 @@
       type="submit"
       class="text-white bg-primary hover:bg-primary-dark focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
     >
-      {{ isEditing ? "Edit" : "Create" }} Product
+      {{
+        isEditing
+          ? (userType$ | async) === "BUILDER"
+            ? "Edit project"
+            : "Submit proposal"
+          : "Create project"
+      }}
     </button>
   </div>
 </form>

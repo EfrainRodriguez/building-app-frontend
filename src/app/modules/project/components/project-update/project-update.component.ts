@@ -1,8 +1,11 @@
 import { Component, OnInit, Output } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
 
 import { ProjectService } from '../../project.service';
 import { Project } from '../../models/project.model';
+import { AppState } from 'src/app/state/app.state';
+import { showToast } from 'src/app/state/actions/toast.action';
 
 @Component({
   selector: 'app-project-update',
@@ -16,7 +19,8 @@ export class ProjectUpdateComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private store: Store<AppState>
   ) {}
 
   ngOnInit(): void {
@@ -42,10 +46,13 @@ export class ProjectUpdateComponent implements OnInit {
     if (this.id) {
       this.projectService.updateProject(this.id, data).subscribe(
         () => {
+          this.store.dispatch(
+            showToast('Project updated successfully!', 'success')
+          );
           this.redirectToProjectDetails();
         },
         (error) => {
-          console.log(error);
+          this.store.dispatch(showToast(error.error.message, 'error'));
         }
       );
     }

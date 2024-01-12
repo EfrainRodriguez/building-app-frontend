@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 
 import { ProjectService } from '../../project.service';
+import { showToast } from 'src/app/state/actions/toast.action';
+import { AppState } from 'src/app/state/app.state';
 
 @Component({
   selector: 'app-project-create',
@@ -9,7 +12,11 @@ import { ProjectService } from '../../project.service';
   styleUrls: ['./project-create.component.css'],
 })
 export class ProjectCreateComponent {
-  constructor(private projectService: ProjectService, private router: Router) {}
+  constructor(
+    private projectService: ProjectService,
+    private router: Router,
+    private store: Store<AppState>
+  ) {}
 
   redirectToProjectList() {
     this.router.navigate(['/project']);
@@ -19,9 +26,12 @@ export class ProjectCreateComponent {
     this.projectService.createProject(data).subscribe(
       () => {
         this.redirectToProjectList();
+        this.store.dispatch(
+          showToast('Project created successfully!', 'success')
+        );
       },
       (error) => {
-        console.log(error);
+        this.store.dispatch(showToast(error.error.message, 'error'));
       }
     );
   }

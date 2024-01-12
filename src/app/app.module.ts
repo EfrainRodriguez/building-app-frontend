@@ -11,6 +11,7 @@ import { ActionReducerMap, StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { toastReducer } from './state/reducers/toast.reducer';
+import { userReducer } from './state/reducers/user.reducer';
 import { AppState } from './state/app.state';
 import { ToastComponent } from './components/toast/toast.component';
 
@@ -25,6 +26,7 @@ import { ToastComponent } from './components/toast/toast.component';
     StoreModule.forRoot(
       {
         toast: toastReducer,
+        user: userReducer,
       } as ActionReducerMap<AppState>,
       {}
     ),

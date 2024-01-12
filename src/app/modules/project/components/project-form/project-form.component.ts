@@ -14,6 +14,10 @@ import {
   FormBuilder,
 } from '@angular/forms';
 import moment from 'moment';
+import { Store } from '@ngrx/store';
+
+import { AppState } from 'src/app/state/app.state';
+import { getUserType } from 'src/app/state/selectors/user.selector';
 
 @Component({
   selector: 'app-project-form',
@@ -26,12 +30,13 @@ export class ProjectFormComponent implements OnChanges, OnInit {
   @Input() isEditing = false;
   @Input() projectData: any;
   @Output() onProjectSubmit: EventEmitter<any> = new EventEmitter<any>();
+  userType$ = this.store.select(getUserType);
 
   itemForm: FormArray = new FormArray([] as FormGroup[]);
 
   projectForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private store: Store<AppState>) {}
 
   ngOnInit(): void {
     this.projectForm = this.fb.group({
@@ -71,6 +76,7 @@ export class ProjectFormComponent implements OnChanges, OnInit {
       unitValue: new FormControl(item ? item.unitValue : '', [
         Validators.required,
       ]),
+      proposedValue: new FormControl(item ? item.proposedValue : ''),
     });
   }
 

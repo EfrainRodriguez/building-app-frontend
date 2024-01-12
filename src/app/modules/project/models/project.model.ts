@@ -1,6 +1,7 @@
 export interface ProjectItem {
   name: string;
   unitValue: number;
+  proposedValue?: number;
 }
 
 export interface Project {
