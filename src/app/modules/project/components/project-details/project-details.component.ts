@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 
@@ -13,7 +13,7 @@ import { showToast } from 'src/app/state/actions/toast.action';
   templateUrl: './project-details.component.html',
   styleUrls: ['./project-details.component.css'],
 })
-export class ProjectDetailsComponent {
+export class ProjectDetailsComponent implements OnInit {
   id: string | null = null;
   @Input() project: Project | undefined;
   coverImage: string | undefined;
@@ -33,9 +33,6 @@ export class ProjectDetailsComponent {
         this.getProject(this.id);
       }
     });
-    this.coverImage =
-      this.project?.images[0] ||
-      'https://www.freeiconspng.com/uploads/photo-album-icon-png-14.png';
   }
 
   redirectToProjectEdit() {
@@ -49,6 +46,9 @@ export class ProjectDetailsComponent {
   getProject(id: string) {
     this.projectService.getProject(id).subscribe((project) => {
       this.project = project as Project;
+      this.coverImage =
+        this.project?.images[0] ||
+        'https://www.freeiconspng.com/uploads/photo-album-icon-png-14.png';
     });
   }
 

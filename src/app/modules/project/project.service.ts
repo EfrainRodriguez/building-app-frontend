@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import pLimit from 'p-limit';
 
 @Injectable({
   providedIn: 'root',
@@ -27,5 +28,18 @@ export class ProjectService {
 
   deleteProject(id: string) {
     return this.http.delete(`${this.urlBase}/${id}`);
+  }
+
+  uploadImages(images: File[]) {
+    const uploadPromises = images.map((image) => {
+      const formData = new FormData();
+      formData.append('file', image);
+      formData.append('upload_preset', 'angular_preset');
+      return this.http.post(
+        `https://api.cloudinary.com/v1_1/monkeywit/upload`,
+        formData
+      ).toPromise();
+    });
+    return Promise.all(uploadPromises);
   }
 }
